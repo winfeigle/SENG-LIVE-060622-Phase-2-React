@@ -8,17 +8,22 @@ const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
 
   const handleClick = () => {
-    fetch("http://localhost:4000/projects")
+    fetch("http://localhost:3000/projects")
       .then((res) => res.json())
       .then((projects) => setProjects(projects));
   };
 
   const onToggleDarkMode = () => setIsDarkMode(!isDarkMode);
 
+  const addProject = (newProject) => {
+    //We need to add the new project to a new copy of the array of projects. Using a callbackfunction
+    setProjects(projectsObj => [...projectsObj, newProject])
+  }
+
   return (
     <div className={isDarkMode ? "App" : "App light"}>
       <Header isDarkMode={isDarkMode} onToggleDarkMode={onToggleDarkMode} />
-      <ProjectForm />
+      <ProjectForm addProject={addProject}/>
       <button onClick={handleClick}>Load Projects</button>
       <ProjectList projects={projects} />
     </div>
